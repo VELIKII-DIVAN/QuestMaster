@@ -1,0 +1,26 @@
+In first, sorry for my English, I'm only learning it. 
+Main command syntax: $$command_name command options. All syntax case sensitive. 
+File have a two sections: before start the game (initial) and section the game commands. 
+The parser to read initial section, read saving state and jump to current command on game commands section. 
+The game section begin with command $$startGame. 
+Avaliable initial commands: 
+ 
+$person_msg_tyle "person name" css property
+Change default css styles for messages from current person. Example:
+$person_msg_style "Best friend" 
+text-colour = green
+  
+$$person "person name" JSON_object 
+Extended default person object, adding new values. Example: 
+$$person "Big angry banana"
+angry_level=20
+role=warrior and eat
+
+Avaliable game commands: 
+
+$$say name: message 
+displaying the message from name in the game chat area. If before this command whe have another say command, also insert delay. 
+
+$$bg url 
+change game background
+
