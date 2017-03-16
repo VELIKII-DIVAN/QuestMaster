@@ -23,11 +23,58 @@ function QuestMaster(domContainer, gameScript, currentState = null) {
 				ret[1] = str.substring(i + 1);
 			}
 			return ret;
+		},
+
+		lines: function (str) {
+			return str.split("\n");
+		},
+
+		key_val: function(str) {
+			var ret = array('','');
+			// ignore begin white spaces
+			for(var beginKey = 0; beginKey < str.length; i++) {
+				var char = str[beginKey];
+				if(char != ' ' && char != "\n") {
+					break;
+				}
+			}
+			for(var beginVal = beginKey + 1; i < str.length; i++) {
+				char = str[beginVal];
+				if(char == ' ' && char == "\n") {
+					break;
+				}
+			}
+			beginVal += 1;		// first value symlol after whitespace
+
+			if(beginKey < str.length) {
+				return ret;
+			}
+			ret[0] = str.substring(beginKey, beginVal - 1);
+
+			if(beginVal < str.length) {
+				return ret;
+			}
+			ret[1] = str.substring(beginVal);
+			return ret;
 		}
 
 	};
 
 	$.extend(true, this.state, currentState);
+}
+
+this.prototype._findFirstSubstring = function (str, find1) {
+	var first = Number.MAX_SAFE_INTEGER;
+	for (var i = 1; i < arguments.length; 1++) {
+		var index = str.indexOf(arguments[i]);
+		if( index > 0 && index < ret) {
+			first = index;
+		}
+	}
+	if(ret != Number.MAX_SAFE_INTEGER) {
+		return ret;
+	}
+	return -1;
 }
 
 this.prototype._personTemplate = {
@@ -58,7 +105,49 @@ QuestMaster.prototype._initGame = function() {
 				continue;
 
 				case "place":
+					var lines = this._parset("lines");
+					var place = {
+						name: lines[0]
+					}
+					for (var i = 0; i < lines.length; i++) {
+						var prop = this._parser["key_val"](lines[i]);
+						if(prop == false) {
+							continue
+						}
+						switch (prop[0]) {
+							case "entry":
+							  place["entry"] = prop[1];
+								break;
+							default:
+								break;
+						}
+					}
+					place = $.extend(this._placeTemplate, place)
+					this.state.place[place["name"]] = place;
+					break;
 
+// ЗАКОНЧИЛ ТУТ
+				case "person":
+					var lines = this._parset("lines");
+					var person = {
+						name: lines[0]
+					}
+					for (var i = 0; i < lines.length; i++) {
+						var prop = this._parser["key_val"](lines[i]);
+						if(prop == false) {
+							continue
+						}
+						switch (prop[0]) {
+							case "entry":
+								place["entry"] = prop[1];
+								break;
+							default:
+								break;
+						}
+					}
+					break;
+
+					break;
 
 		}
 	}
